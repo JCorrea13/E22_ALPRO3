@@ -18,9 +18,14 @@ public class ManejadorGraphviz {
     private static String getFormatoGraphviz0(NodoH n){
         if(n == null) return "";
         
-        return  (n.getDerecha() != null?  ////MULTIPLE LLAMADA A RECURSION
-                (n.getId() + " -> " + getFormatoGraphviz0(n.getDerecha()) + "; \n"): "" ) 
+        String s = "";
+        
+        s = (n.getDerecha() != null?  
+                (n.getId() + " -> " + n.getDerecha().getId() + "; \n"): "" ) 
                 +(n.getIzquierda()!= null?
-                (n.getId() + " -> " + getFormatoGraphviz0(n.getIzquierda()) + "; \n"): "");
+                (n.getId() + " -> " + n.getIzquierda().getId() + "; \n"): "");
+                
+        return s + (n.getDerecha() != null?getFormatoGraphviz0(n.getDerecha()): "")
+                 + (n.getIzquierda() != null?getFormatoGraphviz0(n.getIzquierda()): "");
     }
 }
