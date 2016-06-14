@@ -19,6 +19,10 @@ public class ManejadorGraphviz {
         String s = "";
         if (n==null)
             return s;
+        
+        s += n.getId()==null? n.getContador()+ "[label= \"" + n.getFrecuencia() +"\"];\n":
+                n.getContador()+ "[label= \"" + n.getId() +"\"];\n";
+        
         if(n.getIzquierda() != null)
             s += getRelacion(n, n.getIzquierda(),"0");
         if(n.getDerecha() != null)
@@ -31,9 +35,9 @@ public class ManejadorGraphviz {
     private static String getRelacion(NodoH n, NodoH hijo, String label) {
         String s = "";
         if(hijo.getId()!=null)
-            s=(n.getFrecuencia()+ " -> " + hijo.getId() + " [ label = \"" + label  + "\"]; \n");
+            s=(n.getContador()+ " -> " + hijo.getContador() + " [ label = \"" + label  + "\"]; \n");
         else
-            s=(n.getFrecuencia()+ " -> " + hijo.getFrecuencia() + " [ label = \"" + label  + "\"]; \n");
+            s=(n.getContador()+ " -> " + hijo.getContador() + " [ label = \"" + label  + "\"]; \n");
         return s;
     }
 }

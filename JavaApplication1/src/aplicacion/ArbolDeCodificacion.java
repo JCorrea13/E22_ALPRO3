@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ArbolDeCodificacion {
     
-    
     NodoH raiz;
     static LinkedList<NodoH> lista = new LinkedList<NodoH>();
     public static ArbolDeCodificacion getArbolCodificacion(HashMap<String, AtomicInteger> nodos){
@@ -37,18 +36,24 @@ public class ArbolDeCodificacion {
     }
     static class NodoH implements Comparable{
         
+        private static int contador =0;
         private final String id;
+        private final int CONTADOR;
         private int frecuencia;
         private NodoH izquierda;
         private NodoH derecha;
         
         public NodoH(String id, int frecuencia, boolean isElemento, NodoH izquierda, NodoH derecha) {
             this.id = id;
+            this.CONTADOR = contador++;
             this.frecuencia = frecuencia;
             this.izquierda = izquierda;
             this.derecha = derecha;
         }
 
+        public int getContador() {
+            return CONTADOR;
+        }
         public String getId() {
             return id;
         }

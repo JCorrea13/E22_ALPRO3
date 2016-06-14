@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         
-        String ruta = "C:\\Users\\alejandro\\Documents\\prueba.txt";
+        String ruta = "C:\\Users\\alejandro\\Documents\\prueba3.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
