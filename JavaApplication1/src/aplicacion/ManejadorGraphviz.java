@@ -11,21 +11,29 @@ public class ManejadorGraphviz {
     
     public static String getFormatoGraphviz(ArbolDeCodificacion a){
         
-        return "digraph graphname { \n" + getFormatoGraphviz0(a.raiz) + "}";
+        return "digraph arboreHuffman { \n node [shape = circle]; \n" + getFormatoGraphviz0(a.raiz) + "}";
         
     }
     
     private static String getFormatoGraphviz0(NodoH n){
-        if(n == null) return "";
-        
         String s = "";
-        
-        s = (n.getDerecha() != null?  
-                (n.getId() + " -> " + n.getDerecha().getId() + "; \n"): "" ) 
-                +(n.getIzquierda()!= null?
-                (n.getId() + " -> " + n.getIzquierda().getId() + "; \n"): "");
-                
-        return s + (n.getDerecha() != null?getFormatoGraphviz0(n.getDerecha()): "")
-                 + (n.getIzquierda() != null?getFormatoGraphviz0(n.getIzquierda()): "");
+        if (n==null)
+            return s;
+        if(n.getIzquierda() != null)
+            s += getRelacion(n, n.getIzquierda(),"0");
+        if(n.getDerecha() != null)
+            s += getRelacion(n, n.getDerecha(),"1");
+               
+        return s + getFormatoGraphviz0(n.getDerecha())
+                 + getFormatoGraphviz0(n.getIzquierda());
+    }
+
+    private static String getRelacion(NodoH n, NodoH hijo, String label) {
+        String s = "";
+        if(hijo.getId()!=null)
+            s=(n.getFrecuencia()+ " -> " + hijo.getId() + " [ label = \"" + label  + "\"]; \n");
+        else
+            s=(n.getFrecuencia()+ " -> " + hijo.getFrecuencia() + " [ label = \"" + label  + "\"]; \n");
+        return s;
     }
 }
