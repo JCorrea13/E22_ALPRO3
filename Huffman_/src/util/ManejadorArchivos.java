@@ -165,7 +165,7 @@ public class ManejadorArchivos {
      * @param contenido array de bytes que se excribiran en el archivo
      * @throws IOException 
      */
-    public void agregaContenidoArchivoByte(String ruta, byte [] contenido) throws IOException{
+    public void agregaContenidoArchivoByte(String ruta, byte [] contenido, String codif) throws IOException{
         
         //validamos el directorio de trabajo
         verificaDiretorioTrabajo(ruta.substring(0, ruta.lastIndexOf("/")));
@@ -173,6 +173,8 @@ public class ManejadorArchivos {
         FileOutputStream fos = new FileOutputStream(ruta);
         DataOutputStream salida = new DataOutputStream(fos);
             
+        
+        salida.write(codif.getBytes());
         salida.write(contenido);
         salida.close();
     }

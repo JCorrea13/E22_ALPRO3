@@ -7,11 +7,13 @@ package aplicacion;
 import aplicacion.ArbolDeCodificacion.NodoH;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import util.ManejadorArchivos;
+import util.ManejadorCadenas;
 
 /**
  * @author 16171024
@@ -42,12 +44,17 @@ public class ManejadorArbol {
     }
     
     
-    public static void muestraMapa(HashMap<String, String> hm){
+    public static String mapaToString(HashMap<String, String> hm){
+        StringBuilder sf = new StringBuilder();
         
         for (Map.Entry<String, String> pair : hm.entrySet()) {
-            System.out.print(pair.getKey() + " - ");
-            System.out.println(pair.getValue());
+            sf.append(pair.getKey());
+            sf.append("-");
+            sf.append(pair.getValue());
+            sf.append(";");
         }
+        
+        return sf.toString();
     }
     
     public static HashMap<String, String> getCodificacion(ArbolDeCodificacion a){
@@ -89,40 +96,7 @@ public class ManejadorArbol {
         
         return buffer.toByteArray();
     }
-    
-    public static byte[] getArchivoCodificado(String archivo, HashMap<String, String> codigos){
-        BitSet buffer = new BitSet();
-        int index = 0;
         
-        for (Map.Entry<String,String> pair : codigos.entrySet()) {
-            buffer.set((byte)pair.getKey().charAt(0));                    //escribimos el caracter
-            String codigo = pair.getValue();
-            for(int j = 0; j < codigo.length(); j++)                //escribimos el valor de codificacion
-                buffer.set(index++,(codigo.charAt(j) == '1'));
-        }
-        
-        byte [] codificacion = buffer.toByteArray();
-        byte sl = '\n';
-        byte [] contenido = ManejadorArbol.codifica(archivo, codigos);
-        
-        int tam = codificacion.length +  contenido.length + 1;
-        byte [] array = new byte[tam];
-        
-        int i = 0; //recorremos el arreglo con todos los datos
-            //copiamos los datos de codificacion
-            for (; i < codificacion.length; i ++)
-                array[i] = codificacion[i];
-            
-            //copiamos el salto de linea
-            array[i] = sl;
-            
-            //copiamos los datos de contenido
-            for (;i < contenido.length; i ++)
-                array[i] = contenido[i];
-        
-        return array;
-    }
-    
     private static int indice = 0;
     private static String decodifica(byte [] archivo, HashMap<String, String> codigos){
         
@@ -150,10 +124,17 @@ public class ManejadorArbol {
         
         HashMap<String, String> codigos2 = (HashMap<String, String>) codigos.clone();
         String temp;
+        ArrayList<String> removibles = new ArrayList();
         for (Map.Entry<String,String> pair : codigos2.entrySet()) {
             temp = pair.getValue();
             pair.setValue(temp.substring(0, temp.length()));
+            if(("1".equals(temp.substring(0, 1))) != bs.get(indice))
+                removibles.add(pair.getKey());
         }
+        
+        // removemos los removibles
+        for(String s: removibles)
+            codigos2.remove(s);
         
         indice ++;
         return getCaracter(bs, codigos2);
@@ -165,20 +146,32 @@ public class ManejadorArbol {
         byte [] datos = null;
         
         ArrayList<String> a = ma.getContenidoArchivoCodificado(a_cod);
-        //recuperamos el hashmap de codificacion desde el primer string
-        byte [] cod = a.get(0).getBytes();
-        byte [] b1 = new byte [2]; b1[0] = 0;
-        byte [] b2 = new byte [2]; b2[0] = 0;
+        String cod = a.get(0);
         
-        for(int i = 0; i < cod.length-1 ; i += 2){    
-            b1[1] = cod[i];
-            b2[1] = cod[i+1];
-            codificacion.put(new String(b1),new String(b2));
+        int contador = 0;
+        int contador_1 = 0;
+        String tmp;
+        while(true){
+            if(ManejadorCadenas.buscaConcurrencia(cod,";", contador) == -1)
+                break;
+            
+            tmp = cod.substring(ManejadorCadenas.buscaConcurrencia(cod,";", contador_1),
+                                ManejadorCadenas.buscaConcurrencia(cod,";", contador));
+            
+            codificacion.put(tmp.substring(0,tmp.indexOf("-")), tmp.substring(tmp.indexOf("-"), tmp.length()));
+            contador_1 = contador++;
         }
         
         //recuperamos los datos
         datos = a.get(1).getBytes();
         
         ma.agregaContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
+    }
+
+    public static void comprime(String archivos_testprovaMainhf, String contenido, HashMap<String, String> codigos) throws IOException {
+        ManejadorArchivos ma = new ManejadorArchivos();
+        ma.agregaContenidoArchivoByte("archivos_test/provaMain.hf", 
+                                      ManejadorArbol.codifica(contenido, codigos),
+                                      ManejadorArbol.mapaToString(codigos) + "\n");
     }
 }

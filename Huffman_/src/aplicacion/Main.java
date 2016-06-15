@@ -21,13 +21,14 @@ public class Main {
         
         ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
-        ManejadorArbol.muestraMapa(codigos);
+        ManejadorArbol.mapaToString(codigos);
         System.out.println(ManejadorArbol.getFrecuencias(palabra));
         
         
-        //ma.agregaContenidoArchivoByte("archivos_test/provaMain.hf", ManejadorArbol.getArchivoCodificado(palabra, codigos));
-        
+        //ManejadorArbol.comprime("archivos_test/provaMain.hf", palabra, codigos);
         ManejadorArbol.descomprime("archivos_test/provaMain.hf", "archivos_test/provaMain.des");
+        
+
         //ma.agregaContenidoArchivo("C:\\Users\\16171024.PORTOALEGRE\\Documents\\salida1.txt",ManejadorGraphviz.getFormatoGraphviz(a));
         System.out.println(ManejadorGraphviz.getFormatoGraphviz(a));
         
