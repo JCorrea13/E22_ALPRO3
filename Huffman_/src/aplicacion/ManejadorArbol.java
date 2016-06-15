@@ -5,6 +5,7 @@
 package aplicacion;
 
 import aplicacion.ArbolDeCodificacion.NodoH;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author 16171024
  */
 public class ManejadorArbol {
+    
+    private static HashMap<String, String> codigos;
     
     /**
      * Este metodo recibe una cadena y calcula las frecuencias 
@@ -45,11 +48,12 @@ public class ManejadorArbol {
     }
     
     public static HashMap<String, String> getCodificacion(ArbolDeCodificacion a){
+        codigos = new HashMap<>();
         
+        if(a.raiz == null) return null;
         return getCodificacion0(a.raiz, "");
     }
     
-    static HashMap<String, String> codigos = new HashMap<>();
     private static  HashMap<String, String> getCodificacion0(NodoH nodo, String codigo){
         
         
@@ -61,5 +65,25 @@ public class ManejadorArbol {
         }
         
         return codigos;
+    }
+    
+    /**
+     * 
+     * @param archivo
+     * @param codigos
+     * @return 
+     */
+    public static byte [] codifica(String archivo, HashMap<String, String> codigos){
+        BitSet buffer = new BitSet();
+        int index = 0;
+        
+        for (int i = 0; i < archivo.length(); i ++) {
+            //para cada letra del archivo
+            String codigo = codigos.get(archivo.substring(i,i+1));
+            for(int j = 0; j < codigo.length(); j++)
+                buffer.set(index++,(codigo.charAt(j) == '1'));
+        }
+        
+        return buffer.toByteArray();
     }
 }

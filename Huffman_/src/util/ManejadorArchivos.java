@@ -1,8 +1,10 @@
 package util;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -124,6 +126,24 @@ public class ManejadorArchivos {
             fw.write(s + "\n");
         
         fw.close();
+    }
+    
+    /**
+     * Este metodo crea o agrega el archivo que que se pasa como parametro
+     * @param ruta ruta y nombre del archivo (ruta/name.extension)
+     * @param contenido array de bytes que se excribiran en el archivo
+     * @throws IOException 
+     */
+    public void agregaContenidoArchivoByte(String ruta, byte [] contenido) throws IOException{
+        
+        //validamos el directorio de trabajo
+        verificaDiretorioTrabajo(ruta.substring(0, ruta.lastIndexOf("/")));
+        
+        FileOutputStream fos = new FileOutputStream(ruta);
+        DataOutputStream salida = new DataOutputStream(fos);
+            
+        salida.write(contenido);
+        salida.close();
     }
     
     /**
