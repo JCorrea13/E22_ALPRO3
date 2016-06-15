@@ -72,4 +72,116 @@ public class TestHuffman_Frecuencias {
         }
         assertTrue(bandera); 
     }
+    
+    @Test
+    public void test2() throws IOException {
+        String ruta = "archivos_test\\prova2.txt";
+        ManejadorArchivos ma = new ManejadorArchivos();
+        String palabra = ma.getContenidoArchivo(ruta);
+        
+        HashMap<String,AtomicInteger> frecuencias = ManejadorArbol.getFrecuencias(palabra);
+        
+      
+        HashMap esperado = new HashMap();
+        esperado.put("a", 3);
+        esperado.put("b", 3);
+        esperado.put("h", 3);
+        esperado.put("g", 3);
+        boolean bandera=true;
+        for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
+            if(esperado.containsKey(pair.getKey())){
+               if((int)esperado.get(pair.getKey())!=pair.getValue().intValue()){  
+                  bandera=false;
+               }
+            }
+            else
+                bandera=false;
+        }
+        assertTrue(bandera); 
+    }
+    
+    @Test
+    public void test3() throws IOException {
+        String ruta = "archivos_test\\prova3.txt";
+        ManejadorArchivos ma = new ManejadorArchivos();
+        String palabra = ma.getContenidoArchivo(ruta);
+        
+        HashMap<String,AtomicInteger> frecuencias = ManejadorArbol.getFrecuencias(palabra);
+        
+      
+        HashMap esperado = new HashMap();
+        esperado.put("a", 20);
+        esperado.put("b", 1);
+        esperado.put("c", 1);
+        esperado.put("d", 1);
+        esperado.put("e", 1);
+        esperado.put("f", 1);
+        boolean bandera=true;
+        for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
+            if(esperado.containsKey(pair.getKey())){
+               if((int)esperado.get(pair.getKey())!=pair.getValue().intValue()){  
+                  bandera=false;
+               }
+            }
+            else
+                bandera=false;
+        }
+        assertTrue(bandera); 
+    }
+    
+    @Test
+    public void test4() throws IOException {
+        String ruta = "archivos_test\\prova4.txt";
+        ManejadorArchivos ma = new ManejadorArchivos();
+        String palabra = ma.getContenidoArchivo(ruta);
+        
+        HashMap<String,AtomicInteger> frecuencias = ManejadorArbol.getFrecuencias(palabra);
+        
+        HashMap esperado = new HashMap();
+        esperado.put("a", 2);
+        esperado.put("o", 2);
+        esperado.put("l", 1);
+        esperado.put(" ", 3);
+        boolean bandera=true;
+        for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
+            if(esperado.containsKey(pair.getKey())){
+               if((int)esperado.get(pair.getKey())!=pair.getValue().intValue()){  
+                  bandera=false;
+               }
+            }
+            else
+                bandera=false;
+        }
+        assertTrue(bandera); 
+    }
+    
+    @Test
+    public void test5() throws IOException {
+        String ruta = "archivos_test\\prova5.txt";
+        ManejadorArchivos ma = new ManejadorArchivos();
+        String palabra = ma.getContenidoArchivo(ruta);
+        
+        HashMap<String,AtomicInteger> frecuencias = ManejadorArbol.getFrecuencias(palabra);
+        
+      
+        HashMap esperado = new HashMap();
+       // esperado.put("", 0); o sea, si esperado es vacío
+        boolean bandera = true;
+        if(esperado.size()!=frecuencias.size())
+            bandera=false;
+        for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
+            if(esperado.containsKey(pair.getKey())){
+               if((int)esperado.get(pair.getKey())!=pair.getValue().intValue()){  
+                  bandera=false;
+                  break;
+               }
+            }
+            else{
+                bandera=false;
+                break;
+            }
+        }
+        assertTrue(bandera); 
+    }
 }
+
