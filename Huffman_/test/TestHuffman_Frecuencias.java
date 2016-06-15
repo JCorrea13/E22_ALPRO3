@@ -9,6 +9,8 @@ import aplicacion.ManejadorArbol;
 import aplicacion.ManejadorGraphviz;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,18 +50,26 @@ public class TestHuffman_Frecuencias {
      */
     @Test
     public void test1() throws IOException {
-        String ruta = "C:\\Users\\alejandro\\Documents\\prueba3.txt";
+        String ruta = "archivos_test\\prova.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
-        ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
-        HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
-        ManejadorArbol.muestraMapa(codigos);
+        HashMap<String,AtomicInteger> frecuencias = ManejadorArbol.getFrecuencias(palabra);
         
-        HashMap f = ManejadorArbol.getFrecuencias(palabra);
+      
         HashMap esperado = new HashMap();
-        //esperado.put(f, f)
-        
-        assertEquals(f, esperado);
+        esperado.put("a", 4);
+        esperado.put("b", 5);
+        boolean bandera=true;
+        for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
+            if(esperado.containsKey(pair.getKey())){
+               if((int)esperado.get(pair.getKey())!=pair.getValue().intValue()){  
+                  bandera=false;
+               }
+            }
+            else
+                bandera=false;
+        }
+        assertTrue(bandera);
     }
 }
