@@ -59,7 +59,7 @@ public class TestHuffman_Frecuencias {
       
         HashMap esperado = new HashMap();
         esperado.put("a", 4);
-        esperado.put("b", 5);
+        esperado.put("b", 6);
         boolean bandera=true;
         for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
             if(esperado.containsKey(pair.getKey())){
@@ -70,6 +70,6 @@ public class TestHuffman_Frecuencias {
             else
                 bandera=false;
         }
-        assertTrue(bandera);
+        assertTrue(bandera); 
     }
 }
