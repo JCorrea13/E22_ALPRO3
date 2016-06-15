@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +55,34 @@ public class ManejadorArchivos {
         while((texto = br.readLine()) != null)
             al.add(texto);
             
+        lector.close();
+        return al;
+    }
+    
+    /**
+     * Esete metodo se encarga de leer un archivo codificado en Huffman
+     * regresa un ArrayList<String> donde el primer string son las codificaciones 
+     * y el segundo todos los datos.
+     * @param ruta ruta y nombre del archivo (ruta/name.extension)
+     * @return contenido del archivo
+     */
+    public ArrayList getContenidoArchivoCodificado(String ruta) throws FileNotFoundException, IOException{
+        StringBuilder s = new StringBuilder();
+        ArrayList<String> al = new ArrayList<>();
+        String texto;
+
+        FileReader lector = new FileReader(ruta);
+        BufferedReader br = new BufferedReader(lector);
+        
+        //Leemos la primera linea del archivo -- linea de codificaciones
+        texto = br.readLine();
+        al.add(texto);
+        
+        //Leemos el resto del archivo
+        while((texto = br.readLine()) != null)
+            s.append(texto);
+        al.add(s.toString());
+        
         lector.close();
         return al;
     }
