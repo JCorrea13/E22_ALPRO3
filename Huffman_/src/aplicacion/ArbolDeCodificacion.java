@@ -13,10 +13,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArbolDeCodificacion {
     
     NodoH raiz;
-    static LinkedList<NodoH> lista = new LinkedList<NodoH>();
     public static ArbolDeCodificacion getArbolCodificacion(HashMap<String, AtomicInteger> nodos){
+    LinkedList<NodoH> lista = new LinkedList<NodoH>();
         
         ArbolDeCodificacion a = new ArbolDeCodificacion();
+        NodoH.resetContador();
         for (Map.Entry<String, AtomicInteger> pair : nodos.entrySet()) {
             lista.add(new NodoH(pair.getKey(),pair.getValue().intValue(),true, null, null));
         }
@@ -36,7 +37,7 @@ public class ArbolDeCodificacion {
     }
     static class NodoH implements Comparable{
         
-        private static int contador =0;
+        private static int contador = 0;
         private final String id;
         private final int CONTADOR;
         private int frecuencia;
@@ -82,6 +83,8 @@ public class ArbolDeCodificacion {
             return 0;
         }
         
-        
+        private static void resetContador(){
+            contador = 0;
+        }
     }
 }

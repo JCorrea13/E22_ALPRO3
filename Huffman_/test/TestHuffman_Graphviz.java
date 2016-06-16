@@ -53,7 +53,6 @@ public class TestHuffman_Graphviz {
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
-        HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero ="digraph arboreHuffman { \n"
@@ -76,22 +75,32 @@ public class TestHuffman_Graphviz {
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
-        HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero ="digraph arboreHuffman { \n"
-                + " node [shape = circle]; \n"
-                + "2[label= \"10\"];\n"
-                + "2 -> 0 [ label = \"0\"]; \n"
-                + "2 -> 1 [ label = \"1\"]; \n"
-                + "1[label= \"b\"];\n"
-                + "0[label= \"a\"];\n}";
+                         +  " node [shape = circle]; \n"
+                         +   "6[label= \"12\"];\n"
+                         +   "6 -> 4 [ label = \"0\"]; \n"
+                         +   "6 -> 5 [ label = \"1\"]; \n"
+                         +   "5[label= \"6\"];\n"
+                         +   "5 -> 2 [ label = \"0\"]; \n"
+                         +   "5 -> 3 [ label = \"1\"]; \n"
+                         +   "3[label= \"h\"];\n"
+                         +   "2[label= \"g\"];\n"
+                         +   "4[label= \"6\"];\n"
+                         +   "4 -> 0 [ label = \"0\"]; \n"
+                         +   "4 -> 1 [ label = \"1\"]; \n"
+                         +   "1[label= \"b\"];\n"
+                         +   "0[label= \"a\"];\n"
+                         +   "}";
+        
         
         if(!formato.equals(verdadero))
             bandera=false;
         
         assertTrue(bandera); 
     }
+    
          @Test
     public void test3() throws IOException {
         String ruta = "archivos_test/prova3.txt";
@@ -101,19 +110,37 @@ public class TestHuffman_Graphviz {
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
-        String verdadero ="digraph arboreHuffman { \n"
-                + " node [shape = circle]; \n"
-                + "2[label= \"10\"];\n"
-                + "2 -> 0 [ label = \"0\"]; \n"
-                + "2 -> 1 [ label = \"1\"]; \n"
-                + "1[label= \"b\"];\n"
-                + "0[label= \"a\"];\n}";
+        String verdadero ="digraph arboreHuffman { "
+                           + " node [shape = circle]; \n"
+                           + "10[label= \"25\"];\n"
+                           + "10 -> 9 [ label = \"0\"]; \n"
+                           + "10 -> 0 [ label = \"1\"]; \n"
+                           + "0[label= \"a\"];\n"
+                           + "9[label= \"5\"];\n"
+                           + "9 -> 7 [ label = \"0\"]; \n"
+                           + "9 -> 8 [ label = \"1\"]; \n"
+                           + "8[label= \"3\"];\n"
+                           + "8 -> 5 [ label = \"0\"]; \n"
+                           + "8 -> 6 [ label = \"1\"]; \n"
+                           + "6[label= \"2\"];\n"
+                           + "6 -> 1 [ label = \"0\"]; \n"
+                           + "6 -> 2 [ label = \"1\"]; \n"
+                           + "2[label= \"c\"];\n"
+                           + "1[label= \"b\"];\n"
+                           + "5[label= \"f\"];\n"
+                           + "7[label= \"2\"];\n"
+                           + "7 -> 3 [ label = \"0\"]; \n"
+                           + "7 -> 4 [ label = \"1\"]; \n"
+                           + "4[label= \"e\"];\n"
+                           + "3[label= \"d\"]\n}";
+    
         
         if(!formato.equals(verdadero))
             bandera=false;
         
         assertTrue(bandera); 
     }
+    /*
          @Test
     public void test4() throws IOException {
         String ruta = "archivos_test/prova4.txt";
@@ -157,5 +184,5 @@ public class TestHuffman_Graphviz {
             bandera=false;
         
         assertTrue(bandera); 
-    }
+    }*/
 }
