@@ -5,10 +5,8 @@
 package aplicacion;
 
 import aplicacion.ArbolDeCodificacion.NodoH;
-import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,17 +100,17 @@ public class ManejadorArbol {
     private static String decodifica(byte [] archivo, HashMap<String, String> codigos){
         
         StringBuffer cadena = new StringBuffer();
-        String bytes_string;
+        StringBuffer bytes_string = new StringBuffer();
         
         indice = 0;
         
-        int intversion = Integer.parseInt(archivo.toString(),8);
-        bytes_string = Integer.toBinaryString(intversion);
+        for(int i = 0; i < archivo.length; i ++)
+            bytes_string.append(getStringFromByte(archivo[i]));
         
         //decodificamos el archivo
         int length = archivo.length*8;
         while(indice < length){
-            cadena.append(getCaracter(bytes_string, codigos));
+            cadena.append(getCaracter(bytes_string.toString(), codigos));
         }
         
         return cadena.toString();
@@ -171,10 +169,23 @@ public class ManejadorArbol {
         ma.agregaContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
     }
 
-    public static void comprime(String archivos_testprovaMainhf, String contenido, HashMap<String, String> codigos) throws IOException {
+    public static void comprime(String url, String contenido, HashMap<String, String> codigos) throws IOException {
         ManejadorArchivos ma = new ManejadorArchivos();
-        ma.agregaContenidoArchivoByte("archivos_test/provaMain.hf", 
+        ma.agregaContenidoArchivoByte(url, 
                                       ManejadorArbol.codifica(contenido, codigos),
                                       ManejadorArbol.mapaToString(codigos) + "\n");
+    }
+    
+    private static String getStringFromByte(byte b){
+        
+        StringBuilder s = new StringBuilder();
+        short tmp = 0;
+        
+        for(int i = 7; i > -1 ; i--){
+            tmp = (short) (b << (i+8));
+            s.append(tmp<0? "1":"0");
+        }
+            
+        return s.toString();
     }
 }

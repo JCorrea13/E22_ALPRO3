@@ -15,18 +15,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         
-        String ruta = "archivos_test/provaMain.txt";
+        String ruta = "archivos_test/prova4.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
         ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
-        ManejadorArbol.mapaToString(codigos);
+        System.out.println(ManejadorArbol.mapaToString(codigos));
         System.out.println(ManejadorArbol.getFrecuencias(palabra));
         
         
-        //ManejadorArbol.comprime("archivos_test/provaMain.hf", palabra, codigos);
-        ManejadorArbol.descomprime("archivos_test/provaMain.hf", "archivos_test/provaMain.des");
+        ManejadorArbol.comprime("archivos_test/prova4.hf", palabra, codigos);
+        ManejadorArbol.descomprime("archivos_test/prova4.hf", "archivos_test/prova4.des");
         
 
         //ma.agregaContenidoArchivo("C:\\Users\\16171024.PORTOALEGRE\\Documents\\salida1.txt",ManejadorGraphviz.getFormatoGraphviz(a));
