@@ -5,6 +5,7 @@
 package aplicacion;
 
 import aplicacion.ArbolDeCodificacion.NodoH;
+import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,34 +102,36 @@ public class ManejadorArbol {
     private static String decodifica(byte [] archivo, HashMap<String, String> codigos){
         
         StringBuffer cadena = new StringBuffer();
-        BitSet bs = new BitSet();
+        String bytes_string;
+        
         indice = 0;
         
-        //conseguimos el BitSet del archivo
-        for (int i = 0; i < archivo.length; i++) {
-            bs.set(archivo[i]);
-        }
+        int intversion = Integer.parseInt(archivo.toString(),8);
+        bytes_string = Integer.toBinaryString(intversion);
         
         //decodificamos el archivo
-        while(indice < archivo.length){
-            cadena.append(getCaracter(bs, codigos));
+        int length = archivo.length*8;
+        while(indice < length){
+            cadena.append(getCaracter(bytes_string, codigos));
         }
         
         return cadena.toString();
     }
     
-    private static String getCaracter(BitSet bs, HashMap<String, String> codigos){
+    private static String getCaracter(String bytes_string, HashMap<String, String> codigos){
         
         if(codigos.size() == 1)
-            return null; // regresamos el valor de la unica llave en el diccionario
+            for (Map.Entry<String,String> pair : codigos.entrySet())
+                return pair.getKey();
+            
         
         HashMap<String, String> codigos2 = (HashMap<String, String>) codigos.clone();
         String temp;
         ArrayList<String> removibles = new ArrayList();
         for (Map.Entry<String,String> pair : codigos2.entrySet()) {
             temp = pair.getValue();
-            pair.setValue(temp.substring(0, temp.length()));
-            if(("1".equals(temp.substring(0, 1))) != bs.get(indice))
+            pair.setValue(temp.substring(1, temp.length()));
+            if(("1".equals(temp.substring(0, 1))) != (bytes_string.charAt(indice) == '1'))
                 removibles.add(pair.getKey());
         }
         
@@ -137,7 +140,7 @@ public class ManejadorArbol {
             codigos2.remove(s);
         
         indice ++;
-        return getCaracter(bs, codigos2);
+        return getCaracter(bytes_string, codigos2);
     }
     
     public static void descomprime(String a_cod, String a_des) throws IOException{
@@ -148,18 +151,18 @@ public class ManejadorArbol {
         ArrayList<String> a = ma.getContenidoArchivoCodificado(a_cod);
         String cod = a.get(0);
         
-        int contador = 0;
+        int contador = 1;
         int contador_1 = 0;
         String tmp;
         while(true){
             if(ManejadorCadenas.buscaConcurrencia(cod,";", contador) == -1)
                 break;
             
-            tmp = cod.substring(ManejadorCadenas.buscaConcurrencia(cod,";", contador_1),
-                                ManejadorCadenas.buscaConcurrencia(cod,";", contador));
+            tmp = cod.substring(contador_1, ManejadorCadenas.buscaConcurrencia(cod,";", contador));
             
-            codificacion.put(tmp.substring(0,tmp.indexOf("-")), tmp.substring(tmp.indexOf("-"), tmp.length()));
-            contador_1 = contador++;
+            codificacion.put(tmp.substring(0,tmp.indexOf("-")), tmp.substring(tmp.indexOf("-")+1, tmp.length()));
+            contador_1 = ManejadorCadenas.buscaConcurrencia(cod,";", contador) + 1;
+            contador ++;
         }
         
         //recuperamos los datos

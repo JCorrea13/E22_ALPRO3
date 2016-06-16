@@ -32,5 +32,7 @@ public class Main {
         //ma.agregaContenidoArchivo("C:\\Users\\16171024.PORTOALEGRE\\Documents\\salida1.txt",ManejadorGraphviz.getFormatoGraphviz(a));
         System.out.println(ManejadorGraphviz.getFormatoGraphviz(a));
         
+        
+        
     }
 }
