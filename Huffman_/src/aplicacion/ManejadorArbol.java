@@ -7,6 +7,7 @@ package aplicacion;
 import aplicacion.ArbolDeCodificacion.NodoH;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,26 +147,15 @@ public class ManejadorArbol {
         HashMap<String, String> codificacion = new HashMap<>();
         byte [] datos = null;
         
-        ArrayList<String> a = ma.getContenidoArchivoCodificado(a_cod);
-        String cod = a.get(0);
+        int indice_archivo = 0;
+        byte [] a = ma.getContenidoArchivoBytes(a_cod);
         
-        int contador = 1;
-        int contador_1 = 0;
-        String tmp;
-        while(true){
-            if(ManejadorCadenas.buscaConcurrencia(cod,";", contador) == -1)
-                break;
-            
-            tmp = cod.substring(contador_1, ManejadorCadenas.buscaConcurrencia(cod,";", contador));
-            
-            codificacion.put(tmp.substring(0,tmp.indexOf("-")), tmp.substring(tmp.indexOf("-")+1, tmp.length()));
-            contador_1 = ManejadorCadenas.buscaConcurrencia(cod,";", contador) + 1;
-            contador ++;
-        }
+        //calculamos la cantidad de codigos que hay
+        int tam_cod = (int)a[indice_archivo++];
+        for (int i = 0; i < tam_cod; i++)
+            codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++]));
         
-        //recuperamos los datos
-        datos = a.get(1).getBytes();
-        
+        datos = Arrays.copyOfRange(a, tam_cod, a.length);
         ma.agregaContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
     }
 
@@ -173,7 +163,7 @@ public class ManejadorArbol {
         ManejadorArchivos ma = new ManejadorArchivos();
         ma.agregaContenidoArchivoByte(url, 
                                       ManejadorArbol.codifica(contenido, codigos),
-                                      ManejadorArbol.mapaToString(codigos) + "\n");
+                                      ManejadorArbol.codificaCodigos(codigos));
     }
     
     private static String getStringFromByte(byte b){
@@ -187,5 +177,35 @@ public class ManejadorArbol {
         }
             
         return s.toString();
+    }
+
+    private static byte [] codificaCodigos(HashMap<String, String> codigos) {
+        int tam = codigos.size();
+        byte [] array = new byte [(tam*2) + 1];
+        int cont = 0;
+        
+        array[cont++] = (byte)tam;
+        for (Map.Entry<String,String> pair : codigos.entrySet()) {
+            array[cont++] = (byte)pair.getKey().charAt(0);
+            array[cont++] = (byte)getByteFromString(pair.getValue());
+        }
+        
+        
+        return array;
+    }
+    
+    private static byte getByteFromString(String s){
+        
+        if(s == null || s.isEmpty())
+            return 0;
+        
+        BitSet buffer = new BitSet();
+        int index = 0;
+        
+        for (int i = 0; i < s.length(); i ++) {
+            buffer.set(index++,(s.charAt(i) == '1'));
+        }
+        
+        return (buffer.toByteArray().length == 0)? 0: buffer.toByteArray()[0];
     }
 }

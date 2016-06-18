@@ -163,9 +163,10 @@ public class ManejadorArchivos {
      * Este metodo crea o agrega el archivo que que se pasa como parametro
      * @param ruta ruta y nombre del archivo (ruta/name.extension)
      * @param contenido array de bytes que se excribiran en el archivo
+     * @param codif array de bytes que representa las codificaciones    
      * @throws IOException 
      */
-    public void agregaContenidoArchivoByte(String ruta, byte [] contenido, String codif) throws IOException{
+    public void agregaContenidoArchivoByte(String ruta, byte [] contenido, byte [] codif) throws IOException{
         
         //validamos el directorio de trabajo
         verificaDiretorioTrabajo(ruta.substring(0, ruta.lastIndexOf("/")));
@@ -173,8 +174,7 @@ public class ManejadorArchivos {
         FileOutputStream fos = new FileOutputStream(ruta);
         DataOutputStream salida = new DataOutputStream(fos);
             
-        
-        salida.write(codif.getBytes());
+        salida.write(codif);
         salida.write(contenido);
         salida.close();
     }
@@ -201,5 +201,9 @@ public class ManejadorArchivos {
         if(!f.exists())
             f.mkdirs();
     }
-    
+
+    public byte[] getContenidoArchivoBytes(String ruta) throws IOException{
+        Path path = Paths.get(ruta);
+        return Files.readAllBytes(path);
+    }
 }
