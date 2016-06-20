@@ -173,8 +173,9 @@ public class ManejadorArchivos {
         
         FileOutputStream fos = new FileOutputStream(ruta);
         DataOutputStream salida = new DataOutputStream(fos);
-            
-        salida.write(codif);
+        
+        if(codif != null)
+            salida.write(codif);
         salida.write(contenido);
         salida.close();
     }

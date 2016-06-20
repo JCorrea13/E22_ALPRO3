@@ -183,13 +183,7 @@ public class TestHuffman_Graphviz {
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
-        String verdadero ="digraph arboreHuffman { \n"
-                + " node [shape = circle]; \n"
-                + "2[label= \"10\"];\n"
-                + "2 -> 0 [ label = \"0\"]; \n"
-                + "2 -> 1 [ label = \"1\"]; \n"
-                + "1[label= \"b\"];\n"
-                + "0[label= \"a\"];\n}";
+        String verdadero ="digraph arboreHuffman { \n node [shape = circle]; \n}";
         
         if(!formato.equals(verdadero))
             bandera=false;

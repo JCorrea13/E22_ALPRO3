@@ -45,6 +45,8 @@ public class ManejadorArbol {
     
     
     public static String mapaToString(HashMap<String, String> hm){
+        if(hm == null) return "";
+        
         StringBuilder sf = new StringBuilder();
         
         for (Map.Entry<String, String> pair : hm.entrySet()) {
@@ -86,30 +88,47 @@ public class ManejadorArbol {
     private static byte [] codifica(String archivo, HashMap<String, String> codigos){
         BitSet buffer = new BitSet();
         int index = 0;
+        int cont = 0;
         
         for (int i = 0; i < archivo.length(); i ++) {
             //para cada letra del archivo
             String codigo = codigos.get(archivo.substring(i,i+1));
-            for(int j = 0; j < codigo.length(); j++)
+            for(int j = 0; j < codigo.length(); j++){
                 buffer.set(index++,(codigo.charAt(j) == '1'));
+                cont++;
+            }
         }
         
-        return buffer.toByteArray();
+        
+        int resto = cont % 8;
+        byte [] datos = buffer.toByteArray();
+        byte [] d = new byte[datos.length+1];
+        
+        d[0] = (byte) resto;
+        for (int i = 0; i < datos.length ; i++) {
+            d[i+1] = datos[i];
+        }
+        return d;
     }
         
     private static int indice = 0;
     private static String decodifica(byte [] archivo, HashMap<String, String> codigos){
+        if(codigos == null || codigos.isEmpty()) return "";
         
         StringBuffer cadena = new StringBuffer();
         StringBuffer bytes_string = new StringBuffer();
         
         indice = 0;
         
-        for(int i = 0; i < archivo.length; i ++)
-            bytes_string.append(getStringFromByte(archivo[i]));
+        int resto = archivo[0];
+        //recuperamos el archvo completo como representacion de string
+        for(int i = 1; i < archivo.length - 1; i ++)
+            bytes_string.append(getStringFromByte(archivo[i],(byte)8));
+        bytes_string.append(getStringFromByte(archivo[archivo.length-1],(byte)((resto == 0)?8 :resto)));
+        
         
         //decodificamos el archivo
-        int length = archivo.length*8;
+        int length = bytes_string.length();
         while(indice < length){
             cadena.append(getCaracter(bytes_string.toString(), codigos));
         }
@@ -123,7 +142,6 @@ public class ManejadorArbol {
             for (Map.Entry<String,String> pair : codigos.entrySet())
                 return pair.getKey();
             
-        
         HashMap<String, String> codigos2 = (HashMap<String, String>) codigos.clone();
         String temp;
         ArrayList<String> removibles = new ArrayList();
@@ -153,9 +171,9 @@ public class ManejadorArbol {
         //calculamos la cantidad de codigos que hay
         int tam_cod = (int)a[indice_archivo++];
         for (int i = 0; i < tam_cod; i++)
-            codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++]));
+            codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++], a[indice_archivo++]));
         
-        datos = Arrays.copyOfRange(a, tam_cod, a.length);
+        datos = Arrays.copyOfRange(a, (tam_cod*3) +1, a.length);
         ma.agregaContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
     }
 
@@ -166,12 +184,11 @@ public class ManejadorArbol {
                                       ManejadorArbol.codificaCodigos(codigos));
     }
     
-    private static String getStringFromByte(byte b){
-        
+    private static String getStringFromByte(byte b, byte tam){
         StringBuilder s = new StringBuilder();
         short tmp = 0;
         
-        for(int i = 7; i > -1 ; i--){
+        for(int i = 7; i > (7-tam)   ; i--){
             tmp = (short) (b << (i+8));
             s.append(tmp<0? "1":"0");
         }
@@ -180,14 +197,17 @@ public class ManejadorArbol {
     }
 
     private static byte [] codificaCodigos(HashMap<String, String> codigos) {
+        if(codigos == null) return null;
+        
         int tam = codigos.size();
-        byte [] array = new byte [(tam*2) + 1];
+        byte [] array = new byte [(tam*3) + 1];
         int cont = 0;
         
         array[cont++] = (byte)tam;
         for (Map.Entry<String,String> pair : codigos.entrySet()) {
             array[cont++] = (byte)pair.getKey().charAt(0);
             array[cont++] = (byte)getByteFromString(pair.getValue());
+            array[cont++] = (byte)pair.getValue().length();
         }
         
         
