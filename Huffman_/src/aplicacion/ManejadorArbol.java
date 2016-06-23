@@ -98,7 +98,8 @@ public class ManejadorArbol {
                 cont++;
             }
         }
-        
+        buffer.set(index++,true);
+        cont ++;
         
         int resto = cont % 8;
         byte [] datos = buffer.toByteArray();
@@ -124,7 +125,7 @@ public class ManejadorArbol {
         //recuperamos el archvo completo como representacion de string
         for(int i = 1; i < archivo.length - 1; i ++)
             bytes_string.append(getStringFromByte(archivo[i],(byte)8));
-        bytes_string.append(getStringFromByte(archivo[archivo.length-1],(byte)((resto == 0)?8 :resto)));
+        bytes_string.append(getStringFromByte(archivo[archivo.length-1],(byte)((resto == 0)?7 :resto-1)));
         
         
         //decodificamos el archivo
@@ -174,12 +175,17 @@ public class ManejadorArbol {
             codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++], a[indice_archivo++]));
         
         datos = Arrays.copyOfRange(a, (tam_cod*3) +1, a.length);
-        ma.agregaContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
+        ma.setContenidoArchivo(a_des, ManejadorArbol.decodifica(datos, codificacion));
     }
 
     public static void comprime(String url, String contenido, HashMap<String, String> codigos) throws IOException {
+        if(contenido == null || contenido.isEmpty() || codigos == null){ 
+            System.out.println("No se condiguio comprimir el archivo");
+            return;
+        }
+        
         ManejadorArchivos ma = new ManejadorArchivos();
-        ma.agregaContenidoArchivoByte(url, 
+        ma.setContenidoArchivoByte(url, 
                                       ManejadorArbol.codifica(contenido, codigos),
                                       ManejadorArbol.codificaCodigos(codigos));
     }

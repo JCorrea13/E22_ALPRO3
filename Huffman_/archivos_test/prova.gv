@@ -1,0 +1,22 @@
+
+digraph arboreHuffman { 
+node [shape = doublecircle]; 0 1 4 3 2 ;
+node [shape = circle]; 
+8[label= "15"];
+8 -> 6 [ label = "0"]; 
+8 -> 7 [ label = "1"]; 
+7[label= "9"];
+7 -> 1 [ label = "0"]; 
+7 -> 0 [ label = "1"]; 
+0[label= "a"];
+1[label= "b"];
+6[label= "6"];
+6 -> 2 [ label = "0"]; 
+6 -> 5 [ label = "1"]; 
+5[label= "3"];
+5 -> 3 [ label = "0"]; 
+5 -> 4 [ label = "1"]; 
+4[label= "e"];
+3[label= "d"];
+2[label= "c"];
+}
