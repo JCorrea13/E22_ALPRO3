@@ -30,9 +30,12 @@ public class ManejadorArchivos {
         
         FileReader lector = new FileReader(ruta);
         BufferedReader br = new BufferedReader(lector);
+        boolean b = false;
         
-        while((texto = br.readLine()) != null)
-            s.append(texto);
+        while((texto = br.readLine()) != null){
+            s.append((b?"\n":"") + texto);
+            b = true;
+        }
             
         lector.close();
         return s.toString();
