@@ -28,7 +28,7 @@ public class ManejadorGraphviz {
         if(n.getId() != null) hojas.add(String.valueOf(n.getContador()));
         
         s += n.getId()==null? n.getContador()+ "[label= \"" + n.getFrecuencia() +"\"];\n":
-                n.getContador()+ "[label= \"" + n.getId() +"\"];\n";
+                n.getContador()+ "[label= \"" + getLabelHoja(n.getId()) +"\"];\n";
         
         if(n.getIzquierda() != null)
             s += getRelacion(n, n.getIzquierda(),"0");
@@ -56,5 +56,12 @@ public class ManejadorGraphviz {
             
         s.append(";");
         return s.toString();
+    }
+
+    private static String getLabelHoja(String id) {
+        if(id.charAt(0) > 31 && id.charAt(0) < 255)
+            return id;
+        
+        return "";
     }
 }

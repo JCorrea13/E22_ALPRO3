@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         
-        String ruta = "archivos_test/prova.txt";
+        String ruta = "archivos_test/provaImagen.jpeg";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -25,11 +25,11 @@ public class Main {
         System.out.println(ManejadorArbol.getFrecuencias(palabra));
         
         
-        ManejadorArbol.comprime("archivos_test/prova.hf", palabra, codigos);
-        ManejadorArbol.descomprime("archivos_test/prova.hf", "archivos_test/prova.des");
+        ManejadorArbol.comprime("archivos_test/provaImagen.hf", palabra, codigos);
+        ManejadorArbol.descomprime("archivos_test/provaImagen.hf", "archivos_test/provaImagenDes.jpeg");
         
 
-        ma.agregaContenidoArchivo("archivos_test/prova.gv",ManejadorGraphviz.getFormatoGraphviz(a));
+        ma.setContenidoArchivo("archivos_test/provaImagen.gv",ManejadorGraphviz.getFormatoGraphviz(a));
         //System.out.println(ManejadorGraphviz.getFormatoGraphviz(a));
     }
 }
