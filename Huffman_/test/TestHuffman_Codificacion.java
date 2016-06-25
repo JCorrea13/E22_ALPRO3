@@ -51,7 +51,7 @@ public class TestHuffman_Codificacion {
     // public void hello() {}
      @Test
     public void test1() throws IOException {
-      String ruta = "archivos_test\\prova.txt";
+      String ruta = "archivos_test/prova.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -74,7 +74,7 @@ public class TestHuffman_Codificacion {
     
     @Test
     public void test2() throws IOException {
-      String ruta = "archivos_test\\prova2.txt";
+      String ruta = "archivos_test/prova2.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -97,7 +97,7 @@ public class TestHuffman_Codificacion {
     
     @Test
     public void test3() throws IOException {
-      String ruta = "archivos_test\\prova3.txt";
+      String ruta = "archivos_test/prova3.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -120,7 +120,7 @@ public class TestHuffman_Codificacion {
     
     @Test
     public void test4() throws IOException {
-      String ruta = "archivos_test\\prova4.txt";
+      String ruta = "archivos_test/prova4.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -143,7 +143,7 @@ public class TestHuffman_Codificacion {
     
     @Test
     public void test5() throws IOException {
-      String ruta = "archivos_test\\prova5.txt";
+      String ruta = "archivos_test/prova5.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
