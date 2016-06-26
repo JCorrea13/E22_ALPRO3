@@ -50,7 +50,7 @@ public class TestHuffman_Frecuencias {
      */
     @Test
     public void test1() throws IOException {
-        String ruta = "archivos_test\\prova.txt";
+        String ruta = "archivos_test//prova.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -58,8 +58,12 @@ public class TestHuffman_Frecuencias {
         
       
         HashMap esperado = new HashMap();
-        esperado.put("a", 4);
-        esperado.put("b", 6);
+        esperado.put("a", 5);
+        esperado.put("b", 4);
+        esperado.put("c", 3);
+        esperado.put("d", 1);
+        esperado.put("e", 2);
+        esperado.put("\n", 3);
         boolean bandera=true;
         for(Map.Entry<String,AtomicInteger>pair: frecuencias.entrySet()){
             if(esperado.containsKey(pair.getKey())){
@@ -75,7 +79,7 @@ public class TestHuffman_Frecuencias {
     
     @Test
     public void test2() throws IOException {
-        String ruta = "archivos_test\\prova2.txt";
+        String ruta = "archivos_test//prova2.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -102,7 +106,7 @@ public class TestHuffman_Frecuencias {
     
     @Test
     public void test3() throws IOException {
-        String ruta = "archivos_test\\prova3.txt";
+        String ruta = "archivos_test//prova3.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -131,7 +135,7 @@ public class TestHuffman_Frecuencias {
     
     @Test
     public void test4() throws IOException {
-        String ruta = "archivos_test\\prova4.txt";
+        String ruta = "archivos_test//prova4.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         
@@ -157,7 +161,7 @@ public class TestHuffman_Frecuencias {
     
     @Test
     public void test5() throws IOException {
-        String ruta = "archivos_test\\prova5.txt";
+        String ruta = "archivos_test//prova5.txt";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         

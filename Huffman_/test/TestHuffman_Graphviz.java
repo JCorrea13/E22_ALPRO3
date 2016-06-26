@@ -56,12 +56,30 @@ public class TestHuffman_Graphviz {
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero ="digraph arboreHuffman { \n"
-                + " node [shape = circle]; \n"
-                + "2[label= \"10\"];\n"
-                + "2 -> 0 [ label = \"0\"]; \n"
-                + "2 -> 1 [ label = \"1\"]; \n"
-                + "1[label= \"b\"];\n"
-                + "0[label= \"a\"];\n}";
+                          +  "node [shape = doublecircle]; 5 2 0 1 4 3 ;\n"
+                          +  "node [shape = circle]; \n"
+                          +  "10[label= \"18\"];\n"
+                          +  "10 -> 8 [ label = \"0\"]; \n"
+                          +  "10 -> 9 [ label = \"1\"]; \n"
+                          +  "9[label= \"11\"];\n"
+                          +  "9 -> 0 [ label = \"0\"]; \n"
+                          +  "9 -> 7 [ label = \"1\"]; \n"
+                          +  "7[label= \"6\"];\n"
+                          +  "7 -> 2 [ label = \"0\"]; \n"
+                          +  "7 -> 5 [ label = \"1\"]; \n"
+                          +  "5[label= \"\"];\n"
+                          +  "2[label= \"c\"];\n"
+                          +  "0[label= \"a\"];\n"
+                          +  "8[label= \"7\"];\n"
+                          +  "8 -> 6 [ label = \"0\"]; \n"
+                          +  "8 -> 1 [ label = \"1\"]; \n"
+                          +  "1[label= \"b\"];\n"
+                          +  "6[label= \"3\"];\n"
+                          +  "6 -> 3 [ label = \"0\"]; \n"
+                          +  "6 -> 4 [ label = \"1\"]; \n"
+                          +  "4[label= \"e\"];\n"
+                          +  "3[label= \"d\"];\n"
+                          +  "}";
         
         if(!formato.equals(verdadero))
             bandera=false;
@@ -78,7 +96,8 @@ public class TestHuffman_Graphviz {
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero ="digraph arboreHuffman { \n"
-                         +  " node [shape = circle]; \n"
+                         +   "node [shape = doublecircle]; 3 2 1 0 ;\n"
+                         +   "node [shape = circle]; \n"
                          +   "6[label= \"12\"];\n"
                          +   "6 -> 4 [ label = \"0\"]; \n"
                          +   "6 -> 5 [ label = \"1\"]; \n"
@@ -111,7 +130,8 @@ public class TestHuffman_Graphviz {
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero ="digraph arboreHuffman { \n"
-                           + " node [shape = circle]; \n"
+                           + "node [shape = doublecircle]; 0 2 1 5 4 3 ;\n"
+                           + "node [shape = circle]; \n"
                            + "10[label= \"25\"];\n"
                            + "10 -> 9 [ label = \"0\"]; \n"
                            + "10 -> 0 [ label = \"1\"]; \n"
@@ -152,7 +172,8 @@ public class TestHuffman_Graphviz {
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
         String verdadero =      "digraph arboreHuffman { \n"
-                                  +" node [shape = circle]; \n" 
+                                   +"node [shape = doublecircle]; 0 3 1 2 ;\n"
+                                   +"node [shape = circle]; \n" 
                                    +"6[label= \"8\"];\n"
                                    +"6 -> 4 [ label = \"0\"]; \n"
                                    +"6 -> 5 [ label = \"1\"]; \n"
@@ -183,7 +204,7 @@ public class TestHuffman_Graphviz {
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
         String formato =ManejadorGraphviz.getFormatoGraphviz(a);
         boolean bandera=true;
-        String verdadero ="digraph arboreHuffman { \n node [shape = circle]; \n}";
+        String verdadero ="digraph arboreHuffman { \nnode [shape = doublecircle]; ;\nnode [shape = circle]; \n}";
         
         if(!formato.equals(verdadero))
             bandera=false;

@@ -7,6 +7,7 @@
 import aplicacion.ArbolDeCodificacion;
 import aplicacion.ManejadorArbol;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -120,18 +121,17 @@ public class TestHuffman_Descompresion {
         assertTrue(bandera); 
     }
     
-     @Test
+     @Test(expected = NoSuchFileException.class)
     public void test5() throws IOException {
         String ruta = "archivos_test/prova5.txt";
-        String ruta2 = "archivos_test/res5.docx";
         ManejadorArchivos ma = new ManejadorArchivos();
         String palabra = ma.getContenidoArchivo(ruta);
         ArbolDeCodificacion a = ArbolDeCodificacion.getArbolCodificacion(ManejadorArbol.getFrecuencias(palabra));
         
         HashMap<String, String> codigos = ManejadorArbol.getCodificacion(a);
-        ManejadorArbol.comprime("archivos_test/pp.hf", palabra, codigos);
-        ManejadorArbol.descomprime("archivos_test/pp.hf", ruta2);
-        String palabra2 = ma.getContenidoArchivo(ruta2);
+        ManejadorArbol.comprime("archivos_test/prova5.hf", palabra, codigos);
+        ManejadorArbol.descomprime("archivos_test/prova5.hf", "archivos_test/prova5.des");
+        String palabra2 = ma.getContenidoArchivo("archivos_test/prova5.des)");
         boolean bandera=true;
        if(!palabra2.equals(palabra))
            bandera=false;
