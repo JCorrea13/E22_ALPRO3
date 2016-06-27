@@ -16,7 +16,8 @@ import util.ManejadorArchivos;
 import util.ManejadorCadenas;
 
 /**
- * @author 16171024
+ * @author Jose Correa
+ * @author Alejandro romero
  */
 public class ManejadorArbol {
     
@@ -44,6 +45,12 @@ public class ManejadorArbol {
     }
     
     
+    /**
+     * Este metodo regresa un string con la representacion
+     * de todo el hashmap que pasa como parametro
+     * @param hm hasmap que se desea imprimir
+     * @return string con contenido de hashmap
+     */
     public static String mapaToString(HashMap<String, String> hm){
         if(hm == null) return "";
         
@@ -59,6 +66,12 @@ public class ManejadorArbol {
         return sf.toString();
     }
     
+    /**
+     * Este metodo crea la codificacion de Huffman desde el Arbol de 
+     * Huffman que pasa como parametro
+     * @param a Arbol de Huffman (ArbolDeCodificacion)
+     * @return HashMap codificaciones
+     */
     public static HashMap<String, String> getCodificacion(ArbolDeCodificacion a){
         codigos = new HashMap<>();
         
@@ -66,6 +79,13 @@ public class ManejadorArbol {
         return getCodificacion0(a.raiz, "");
     }
     
+    /**
+     * Este motodo es el metodo recursivo que se utiliza para recorrer el Arbol de Huffman
+     * y crear las codificaciones
+     * @param nodo 
+     * @param codigo
+     * @return 
+     */
     private static  HashMap<String, String> getCodificacion0(NodoH nodo, String codigo){
         
         
@@ -80,10 +100,12 @@ public class ManejadorArbol {
     }
     
     /**
-     * 
-     * @param archivo
-     * @param codigos
-     * @return 
+     * Este metodo se encarga de crear la codificacion del archivo 
+     * (String) que pasa como parametro con respecto a los codigos 
+     * que tambien pasan como parametro
+     * @param archivo String a comprimir
+     * @param codigos codigos para comprecion
+     * @return Arreglo de bytes con la codificacion del archivo
      */
     private static byte [] codifica(String archivo, HashMap<String, String> codigos){
         BitSet buffer = new BitSet();
@@ -170,7 +192,10 @@ public class ManejadorArbol {
         byte [] a = ma.getContenidoArchivoBytes(a_cod);
         
         //calculamos la cantidad de codigos que hay
-        int tam_cod = (int)a[indice_archivo++];
+        int u = (byte)(a[indice_archivo++]);
+        int d = (int)((a[indice_archivo++]));
+        
+        int tam_cod = (int) (d<<8) | u ;
         for (int i = 0; i < tam_cod; i++)
             codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++], a[indice_archivo++]));
         
@@ -206,10 +231,11 @@ public class ManejadorArbol {
         if(codigos == null) return null;
         
         int tam = codigos.size();
-        byte [] array = new byte [(tam*3) + 1];
+        byte [] array = new byte [(tam*3) + 2];
         int cont = 0;
         
         array[cont++] = (byte)tam;
+        array[cont++] = (byte)(tam >>> 8);
         for (Map.Entry<String,String> pair : codigos.entrySet()) {
             array[cont++] = (byte)pair.getKey().charAt(0);
             array[cont++] = (byte)getByteFromString(pair.getValue());
