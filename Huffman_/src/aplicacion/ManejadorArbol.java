@@ -191,11 +191,7 @@ public class ManejadorArbol {
         int indice_archivo = 0;
         byte [] a = ma.getContenidoArchivoBytes(a_cod);
         
-        //calculamos la cantidad de codigos que hay
-        int u = (byte)(a[indice_archivo++]);
-        int d = (int)((a[indice_archivo++]));
-        
-        int tam_cod = (int) (d<<8) | u ;
+        int tam_cod = (int)((a[indice_archivo++]));
         for (int i = 0; i < tam_cod; i++)
             codificacion.put((char)a[indice_archivo++] + "", getStringFromByte(a[indice_archivo++], a[indice_archivo++]));
         
@@ -231,11 +227,10 @@ public class ManejadorArbol {
         if(codigos == null) return null;
         
         int tam = codigos.size();
-        byte [] array = new byte [(tam*3) + 2];
+        byte [] array = new byte [(tam*3) + 1];
         int cont = 0;
         
         array[cont++] = (byte)tam;
-        array[cont++] = (byte)(tam >>> 8);
         for (Map.Entry<String,String> pair : codigos.entrySet()) {
             array[cont++] = (byte)pair.getKey().charAt(0);
             array[cont++] = (byte)getByteFromString(pair.getValue());
