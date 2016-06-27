@@ -1,4 +1,4 @@
-# E22_ALPRO3
+# Codificação de Huffman
 O algoritmo de compress ̃ao de Huffman e  ́ usado quando sabemos quantas vezes cada
 caractere apararece em um arquivo que deve ser comprimido. As etapas do algoritmo s ̃ao
 as seguintes:
